@@ -12,6 +12,7 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -24,7 +25,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -37,6 +37,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\GestionPersonnel.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -72,13 +73,33 @@
     <Reference Include="ZstdNet, Version=1.4.5.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Connexion\ConnexionDB.cs" />
+    <Compile Include="Dal\GestDonneesDB.cs" />
+    <Compile Include="gestpersoDataSet.cs">
+      <DependentUpon>gestpersoDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="gestpersoDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>gestpersoDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Modèle\Absence.cs" />
+    <Compile Include="Modèle\Motif.cs" />
+    <Compile Include="Modèle\Personnel.cs" />
+    <Compile Include="Modèle\Service.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Vue\Connection.cs">
+    <Compile Include="Vue\Connexion.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Vue\Connection.Designer.cs">
-      <DependentUpon>Connection.cs</DependentUpon>
+    <Compile Include="Vue\Connexion.Designer.cs">
+      <DependentUpon>Connexion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Vue\Demande de confirmation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vue\Demande de confirmation.Designer.cs">
+      <DependentUpon>Demande de confirmation.cs</DependentUpon>
     </Compile>
     <Compile Include="Vue\Gestion.cs">
       <SubType>Form</SubType>
@@ -96,12 +117,26 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Vue\Connection.resx">
-      <DependentUpon>Connection.cs</DependentUpon>
+    <EmbeddedResource Include="Vue\Connexion.resx">
+      <DependentUpon>Connexion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Vue\Demande de confirmation.resx">
+      <DependentUpon>Demande de confirmation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Vue\Gestion.resx">
       <DependentUpon>Gestion.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="gestpersoDataSet.xsc">
+      <DependentUpon>gestpersoDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="gestpersoDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>gestpersoDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="gestpersoDataSet.xss">
+      <DependentUpon>gestpersoDataSet.xsd</DependentUpon>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -117,7 +152,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controleur\" />
-    <Folder Include="Modèle\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

@@ -22,5 +22,16 @@ namespace GestionPersonnel.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("server=localhost;user id=atelier;password=btssio;persistsecurityinfo=True;databas" +
+            "e=gestperso")]
+        public string gestPersoConnectionString {
+            get {
+                return ((string)(this["gestPersoConnectionString"]));
+            }
+        }
     }
 }
