@@ -3,7 +3,7 @@
     /// <summary>
     /// Classe Personnel
     /// </summary>
-    class Personnel
+    public class Personnel
     {
         private int id;
         private int idService;

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 /// </summary>
 namespace GestionPersonnel.Modèle
 {
-    class Motif
+    public class Motif
     {
         private int id;
         private string nom;

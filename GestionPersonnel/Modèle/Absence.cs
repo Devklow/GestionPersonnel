@@ -9,7 +9,7 @@ namespace GestionPersonnel.Modèle
     /// <summary>
     /// Classe Absence
     /// </summary>
-    class Absence
+    public class Absence
     {
         private int idPersonnel;
         private DateTime dateDebut;

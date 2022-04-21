@@ -29,13 +29,13 @@ namespace GestionPersonnel.Vue
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Connexion));
             this.btnConnect = new System.Windows.Forms.Button();
             this.lblTitle = new System.Windows.Forms.Label();
             this.txtId = new System.Windows.Forms.TextBox();
             this.lblId = new System.Windows.Forms.Label();
             this.lblPwd = new System.Windows.Forms.Label();
             this.txtPwd = new System.Windows.Forms.TextBox();
-            this.lblError = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnConnect
@@ -46,7 +46,7 @@ namespace GestionPersonnel.Vue
             this.btnConnect.TabIndex = 0;
             this.btnConnect.Text = "Se connecter";
             this.btnConnect.UseVisualStyleBackColor = true;
-            this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
+            this.btnConnect.Click += new System.EventHandler(this.BtnConnect_Click);
             // 
             // lblTitle
             // 
@@ -91,30 +91,22 @@ namespace GestionPersonnel.Vue
             this.txtPwd.Size = new System.Drawing.Size(257, 20);
             this.txtPwd.TabIndex = 5;
             // 
-            // lblError
-            // 
-            this.lblError.CausesValidation = false;
-            this.lblError.ForeColor = System.Drawing.Color.DarkRed;
-            this.lblError.Location = new System.Drawing.Point(15, 37);
-            this.lblError.Name = "lblError";
-            this.lblError.Size = new System.Drawing.Size(260, 44);
-            this.lblError.TabIndex = 6;
-            this.lblError.Text = "Erreur : ";
-            this.lblError.Visible = false;
-            // 
             // Connexion
             // 
+            this.AcceptButton = this.btnConnect;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
-            this.Controls.Add(this.lblError);
             this.Controls.Add(this.txtPwd);
             this.Controls.Add(this.lblPwd);
             this.Controls.Add(this.lblId);
             this.Controls.Add(this.txtId);
             this.Controls.Add(this.lblTitle);
             this.Controls.Add(this.btnConnect);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "Connexion";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Connexion";
             this.Load += new System.EventHandler(this.Connexion_Load);
             this.ResumeLayout(false);
@@ -130,6 +122,5 @@ namespace GestionPersonnel.Vue
         private System.Windows.Forms.Label lblId;
         private System.Windows.Forms.Label lblPwd;
         private System.Windows.Forms.TextBox txtPwd;
-        private System.Windows.Forms.Label lblError;
     }
 }

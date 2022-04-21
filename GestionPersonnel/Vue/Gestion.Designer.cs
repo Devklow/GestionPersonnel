@@ -30,6 +30,7 @@ namespace GestionPersonnel.Vue
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Gestion));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.grpAddModStaff = new System.Windows.Forms.GroupBox();
@@ -80,7 +81,6 @@ namespace GestionPersonnel.Vue
             this.absenceBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.personnelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.personnelTableAdapter = new GestionPersonnel.gestpersoDataSetTableAdapters.personnelTableAdapter();
-            this.errLblAbs = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.grpAddModStaff.SuspendLayout();
@@ -150,7 +150,7 @@ namespace GestionPersonnel.Vue
             this.btnCancelStaff.TabIndex = 11;
             this.btnCancelStaff.Text = "Annuler";
             this.btnCancelStaff.UseVisualStyleBackColor = true;
-            this.btnCancelStaff.Click += new System.EventHandler(this.btnCancelStaff_Click);
+            this.btnCancelStaff.Click += new System.EventHandler(this.BtnCancelStaff_Click);
             // 
             // btnValidateStaff
             // 
@@ -160,7 +160,7 @@ namespace GestionPersonnel.Vue
             this.btnValidateStaff.TabIndex = 10;
             this.btnValidateStaff.Text = "Ajouter/Modifier";
             this.btnValidateStaff.UseVisualStyleBackColor = true;
-            this.btnValidateStaff.Click += new System.EventHandler(this.btnValidateStaff_Click);
+            this.btnValidateStaff.Click += new System.EventHandler(this.BtnValidateStaff_Click);
             // 
             // cmbServiceStaff
             // 
@@ -265,7 +265,7 @@ namespace GestionPersonnel.Vue
             this.btnAbsStaff.TabIndex = 4;
             this.btnAbsStaff.Text = "Gerer les absences";
             this.btnAbsStaff.UseVisualStyleBackColor = true;
-            this.btnAbsStaff.Click += new System.EventHandler(this.button4_Click);
+            this.btnAbsStaff.Click += new System.EventHandler(this.BtnAbsStaff_Click);
             // 
             // btnDelStaff
             // 
@@ -275,7 +275,7 @@ namespace GestionPersonnel.Vue
             this.btnDelStaff.TabIndex = 3;
             this.btnDelStaff.Text = "Supprimer";
             this.btnDelStaff.UseVisualStyleBackColor = true;
-            this.btnDelStaff.Click += new System.EventHandler(this.btnDelStaff_Click);
+            this.btnDelStaff.Click += new System.EventHandler(this.BtnDelStaff_Click);
             // 
             // btnModStaff
             // 
@@ -285,7 +285,7 @@ namespace GestionPersonnel.Vue
             this.btnModStaff.TabIndex = 2;
             this.btnModStaff.Text = "Modifier";
             this.btnModStaff.UseVisualStyleBackColor = true;
-            this.btnModStaff.Click += new System.EventHandler(this.btnModStaff_Click);
+            this.btnModStaff.Click += new System.EventHandler(this.BtnModStaff_Click);
             // 
             // btnAddStaff
             // 
@@ -295,7 +295,7 @@ namespace GestionPersonnel.Vue
             this.btnAddStaff.TabIndex = 1;
             this.btnAddStaff.Text = "Ajouter";
             this.btnAddStaff.UseVisualStyleBackColor = true;
-            this.btnAddStaff.Click += new System.EventHandler(this.button1_Click);
+            this.btnAddStaff.Click += new System.EventHandler(this.BtnAddStaff_Click);
             // 
             // dataGrid1
             // 
@@ -403,7 +403,6 @@ namespace GestionPersonnel.Vue
             // 
             // grpAddModAbs
             // 
-            this.grpAddModAbs.Controls.Add(this.errLblAbs);
             this.grpAddModAbs.Controls.Add(this.btnCancelAbs);
             this.grpAddModAbs.Controls.Add(this.btnValidateAbs);
             this.grpAddModAbs.Controls.Add(this.label9);
@@ -428,7 +427,7 @@ namespace GestionPersonnel.Vue
             this.btnCancelAbs.TabIndex = 8;
             this.btnCancelAbs.Text = "Annuler";
             this.btnCancelAbs.UseVisualStyleBackColor = true;
-            this.btnCancelAbs.Click += new System.EventHandler(this.btnCancelAbs_Click);
+            this.btnCancelAbs.Click += new System.EventHandler(this.BtnCancelAbs_Click);
             // 
             // btnValidateAbs
             // 
@@ -438,7 +437,7 @@ namespace GestionPersonnel.Vue
             this.btnValidateAbs.TabIndex = 7;
             this.btnValidateAbs.Text = "Ajouter/Modifier";
             this.btnValidateAbs.UseVisualStyleBackColor = true;
-            this.btnValidateAbs.Click += new System.EventHandler(this.button11_Click);
+            this.btnValidateAbs.Click += new System.EventHandler(this.BtnValidateAbs_Click);
             // 
             // label9
             // 
@@ -511,7 +510,7 @@ namespace GestionPersonnel.Vue
             this.btnStaffAbs.TabIndex = 4;
             this.btnStaffAbs.Text = "Gerer le personnel";
             this.btnStaffAbs.UseVisualStyleBackColor = true;
-            this.btnStaffAbs.Click += new System.EventHandler(this.button10_Click);
+            this.btnStaffAbs.Click += new System.EventHandler(this.BtnStaffAbs_Click);
             // 
             // btnDelAbs
             // 
@@ -521,7 +520,7 @@ namespace GestionPersonnel.Vue
             this.btnDelAbs.TabIndex = 3;
             this.btnDelAbs.Text = "Supprimer";
             this.btnDelAbs.UseVisualStyleBackColor = true;
-            this.btnDelAbs.Click += new System.EventHandler(this.btnDelAbs_Click);
+            this.btnDelAbs.Click += new System.EventHandler(this.BtnDelAbs_Click);
             // 
             // btnModAbs
             // 
@@ -531,7 +530,7 @@ namespace GestionPersonnel.Vue
             this.btnModAbs.TabIndex = 2;
             this.btnModAbs.Text = "Modifier";
             this.btnModAbs.UseVisualStyleBackColor = true;
-            this.btnModAbs.Click += new System.EventHandler(this.btnModAbs_Click);
+            this.btnModAbs.Click += new System.EventHandler(this.BtnModAbs_Click);
             // 
             // btnAddAbs
             // 
@@ -541,7 +540,7 @@ namespace GestionPersonnel.Vue
             this.btnAddAbs.TabIndex = 1;
             this.btnAddAbs.Text = "Ajouter";
             this.btnAddAbs.UseVisualStyleBackColor = true;
-            this.btnAddAbs.Click += new System.EventHandler(this.btnAddAbs_Click);
+            this.btnAddAbs.Click += new System.EventHandler(this.BtnAddAbs_Click);
             // 
             // dataGrid2
             // 
@@ -565,22 +564,17 @@ namespace GestionPersonnel.Vue
             // 
             this.personnelTableAdapter.ClearBeforeFill = true;
             // 
-            // errLblAbs
-            // 
-            this.errLblAbs.AutoSize = true;
-            this.errLblAbs.Location = new System.Drawing.Point(6, 116);
-            this.errLblAbs.Name = "errLblAbs";
-            this.errLblAbs.Size = new System.Drawing.Size(0, 13);
-            this.errLblAbs.TabIndex = 10;
-            // 
             // Gestion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(666, 482);
             this.Controls.Add(this.tabControl1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "Gestion";
-            this.Text = "Gestion";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Gestion du Personnel & Absences";
             this.Load += new System.EventHandler(this.Gestion_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -654,6 +648,5 @@ namespace GestionPersonnel.Vue
         private System.Windows.Forms.DataGridViewTextBoxColumn tELDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn mAILDataGridViewTextBoxColumn;
         private System.Windows.Forms.BindingSource absenceBindingSource;
-        private System.Windows.Forms.Label errLblAbs;
     }
 }

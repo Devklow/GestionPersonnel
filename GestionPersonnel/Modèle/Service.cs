@@ -9,7 +9,7 @@ namespace GestionPersonnel.Modèle
     /// <summary>
     /// Classe Service
     /// </summary>
-    class Service
+    public class Service
     {
         private int id;
         private string nom;

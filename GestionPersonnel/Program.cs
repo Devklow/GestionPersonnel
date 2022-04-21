@@ -16,7 +16,7 @@ namespace GestionPersonnel
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Vue.Gestion());
+            new Controleur.Controleur();
         }
     }
 }
