@@ -27,11 +27,8 @@ namespace GestionPersonnel.Dal
         public static Boolean Connect(string nom, string pwd)
         {
             string req = "Select * from responsable where login=@nom and pwd=SHA2(@pwd, 256);";
-            Dictionary<string, object> parameters = new Dictionary<string, object>();
-            parameters.Add("@nom", nom);
-            parameters.Add("@pwd", pwd);
             ConnexionDB connection = ConnexionDB.GetInstance(connectionString);
-            connection.Select(req, parameters);
+            connection.Select(req, new Dictionary<string, object> { ["@nom"] = nom, ["@pwd"] = pwd});
             if(connection.Read())
             {
                 connection.Close();

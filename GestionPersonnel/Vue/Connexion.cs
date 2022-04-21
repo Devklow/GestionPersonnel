@@ -16,11 +16,14 @@ namespace GestionPersonnel.Vue
     /// </summary>
     public partial class Connexion : Form
     {
+
+        private Controleur.Controleur Controleur;
         /// <summary>
         /// Initialise la fenêtre
         /// </summary>
-        public Connexion()
+        public Connexion(Controleur.Controleur controleur)
         {
+            this.Controleur = controleur;
             InitializeComponent();
             AcceptButton = btnConnect;
         }
@@ -29,23 +32,26 @@ namespace GestionPersonnel.Vue
         /// </summary>
         /// <param name="sender">sender de type objet</param>
         /// <param name="e">e de type EventArgs</param>
-        private void btnConnect_Click(object sender, EventArgs e)
+        private void BtnConnect_Click(object sender, EventArgs e)
         {
             if(txtPwd.Text == "")
             {
                 txtPwd.Focus();
-                showError("Veuillez entrer un mot de passe");
+                ShowError("Veuillez entrer un mot de passe");
             }
 
             else if (txtId.Text == "")
             {
                 txtId.Focus();
-                showError("Veuillez entrer un identifiant");
+                ShowError("Veuillez entrer un identifiant");
             }
 
             else
             {
-                //connexion
+                if(!Controleur.Connect(txtId.Text, txtPwd.Text))
+                {
+                    ShowError("Identifiant ou Mot de passe incorrect");
+                }
             }
         }
 
@@ -53,13 +59,9 @@ namespace GestionPersonnel.Vue
         /// Fonction affichant sur l'écran s'il y a une erreur de connection
         /// </summary>
         /// <param name="erreur">Cause de l'erreur</param>
-        private void showError(string erreur)
+        private void ShowError(string erreur)
         {
-            if(lblError.Visible == false)
-            { 
-                lblError.Visible = true;
-            }
-            lblError.Text = "Erreur : " + erreur;
+            Controleur.ShowError(erreur);
         }
 
         /// <summary>

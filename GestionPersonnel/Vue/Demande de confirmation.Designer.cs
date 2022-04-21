@@ -20,7 +20,6 @@ namespace GestionPersonnel.Vue
             }
             base.Dispose(disposing);
         }
-
         #region Windows Form Designer generated code
 
         /// <summary>
@@ -29,6 +28,7 @@ namespace GestionPersonnel.Vue
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Demande_de_confirmation));
             this.label1 = new System.Windows.Forms.Label();
             this.btnYes = new System.Windows.Forms.Button();
             this.btnNo = new System.Windows.Forms.Button();
@@ -51,28 +51,36 @@ namespace GestionPersonnel.Vue
             this.btnYes.TabIndex = 1;
             this.btnYes.Text = "Oui";
             this.btnYes.UseVisualStyleBackColor = true;
-            this.btnYes.Click += new System.EventHandler(this.btnYes_Click);
+            this.btnYes.Click += new System.EventHandler(this.BtnYes_Click);
             // 
             // btnNo
             // 
+            this.btnNo.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnNo.Location = new System.Drawing.Point(43, 72);
             this.btnNo.Name = "btnNo";
             this.btnNo.Size = new System.Drawing.Size(75, 23);
             this.btnNo.TabIndex = 2;
             this.btnNo.Text = "Non";
             this.btnNo.UseVisualStyleBackColor = true;
-            this.btnNo.Click += new System.EventHandler(this.btnNo_Click);
+            this.btnNo.Click += new System.EventHandler(this.BtnNo_Click);
             // 
             // Demande_de_confirmation
             // 
+            this.AcceptButton = this.btnYes;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnNo;
             this.ClientSize = new System.Drawing.Size(311, 119);
             this.Controls.Add(this.btnNo);
             this.Controls.Add(this.btnYes);
             this.Controls.Add(this.label1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Demande_de_confirmation";
             this.Text = "Demande de confirmation";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Demande_de_confirmation_FormClosing);
+            this.Load += new System.EventHandler(this.Demande_de_confirmation_Load);
             this.ResumeLayout(false);
 
         }

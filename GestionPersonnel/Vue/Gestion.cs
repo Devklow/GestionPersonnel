@@ -17,12 +17,14 @@ namespace GestionPersonnel.Vue
     {
 
         private int Mode = 0;
+        private Controleur.Controleur Controleur;
 
         /// <summary>
         /// Initialise la fenêtre
         /// </summary>
-        public Gestion()
+        public Gestion(Controleur.Controleur controleur)
         {
+            this.Controleur = controleur;
             InitializeComponent();
         }
 
@@ -41,7 +43,7 @@ namespace GestionPersonnel.Vue
         /// </summary>
         private void UpdateDataGrid2()
         {
-            dataGrid2.DataSource = Dal.GestDonneesDB.GetAbsences((int)dataGrid1.SelectedRows[0].Cells[0].Value);
+            dataGrid2.DataSource = Controleur.GetAbsences((int)dataGrid1.SelectedRows[0].Cells[0].Value);
             dataGrid2.Columns["IDMOTIF"].Visible = false;
             dataGrid2.Columns["IDPERSONNEL"].Visible = false;
             dataGrid2.Update();
@@ -62,8 +64,8 @@ namespace GestionPersonnel.Vue
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             dataGrid1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGrid2.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            cmbServiceStaff.DataSource = Dal.GestDonneesDB.GetLesServices();
-            cmbReasonAbs.DataSource = Dal.GestDonneesDB.GetLesMotifs();
+            cmbServiceStaff.DataSource = Controleur.GetLesServices();
+            cmbReasonAbs.DataSource = Controleur.GetLesMotifs();
         }
 
         /// <summary>
@@ -72,7 +74,7 @@ namespace GestionPersonnel.Vue
         /// </summary>
         /// <param name="sender">sender de type objet</param>
         /// <param name="e">e de type EventArgs</param>
-        private void button1_Click(object sender, EventArgs e)
+        private void BtnAddStaff_Click(object sender, EventArgs e)
         {
             this.Mode = 1;
             grpAddModStaff.Text = "Ajouter";
@@ -87,12 +89,16 @@ namespace GestionPersonnel.Vue
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void button4_Click(object sender, EventArgs e)
+        private void BtnAbsStaff_Click(object sender, EventArgs e)
         {
             if (dataGrid1.SelectedRows.Count == 1)
             {
                 tabControl1.SelectedTab = tabPage2;
                 UpdateDataGrid2();
+            }
+            else
+            {
+                Controleur.ShowError("Vous devez sélectionner un personnel");
             }
 
         }
@@ -102,7 +108,7 @@ namespace GestionPersonnel.Vue
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void button10_Click(object sender, EventArgs e)
+        private void BtnStaffAbs_Click(object sender, EventArgs e)
         {
             tabControl1.SelectedTab = tabPage1;
         }
@@ -113,30 +119,30 @@ namespace GestionPersonnel.Vue
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void button11_Click(object sender, EventArgs e)
+        private void BtnValidateAbs_Click(object sender, EventArgs e)
         {
             if (dtpStartAbs.Value <= dtpEndAbs.Value)
             {
                 if (this.Mode == 3)
                 {
-                    if (Dal.GestDonneesDB.AddAbsence(new Modèle.Absence((int)dataGrid1.SelectedRows[0].Cells[0].Value, dtpStartAbs.Value, ((Modèle.Motif)cmbReasonAbs.SelectedItem).Id, dtpEndAbs.Value)))
+                    if (Controleur.AddAbsence(new Modèle.Absence((int)dataGrid1.SelectedRows[0].Cells[0].Value, dtpStartAbs.Value, ((Modèle.Motif)cmbReasonAbs.SelectedItem).Id, dtpEndAbs.Value)))
                     {
                         UpdateDataGrid2();
-                        btnCancelAbs_Click(null, null);
+                        BtnCancelAbs_Click(null, null);
                     }
                 }
                 else
                 {
-                    if (Dal.GestDonneesDB.UpdateAbsence(new Modèle.Absence((int)dataGrid1.SelectedRows[0].Cells[0].Value, dtpStartAbs.Value, ((Modèle.Motif)cmbReasonAbs.SelectedItem).Id, dtpEndAbs.Value), (DateTime)dataGrid2.SelectedRows[0].Cells[1].Value))
+                    if (Controleur.UpdateAbsence(new Modèle.Absence((int)dataGrid1.SelectedRows[0].Cells[0].Value, dtpStartAbs.Value, ((Modèle.Motif)cmbReasonAbs.SelectedItem).Id, dtpEndAbs.Value), (DateTime)dataGrid2.SelectedRows[0].Cells[1].Value))
                     {
                         UpdateDataGrid2();
-                        btnCancelAbs_Click(null, null);
+                        BtnCancelAbs_Click(null, null);
                     }
                 }
             }
             else
             {
-                errLblAbs.Text = "Erreur : Date de fin inférieur à la date de début";
+               Controleur.ShowError("Date de fin inférieur à la date de début");
             }
         }
 
@@ -146,22 +152,30 @@ namespace GestionPersonnel.Vue
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnValidateStaff_Click(object sender, EventArgs e)
+        private void BtnValidateStaff_Click(object sender, EventArgs e)
         {
-            if(this.Mode == 1) {
-                if (Dal.GestDonneesDB.AddPersonnel(new Modèle.Personnel(0, ((Modèle.Service)cmbServiceStaff.SelectedItem).Id, txtSNStaff.Text, txtFNStaff.Text, txtPhoneStaff.Text, txtMailStaff.Text)))
+            if (txtFNStaff.Text != "" && txtMailStaff.Text != "" && txtPhoneStaff.Text != "" && txtSNStaff.Text != "")
+            {
+                if (this.Mode == 1)
                 {
-                    UpdateDataGrid();
-                    btnCancelStaff_Click(null, null);
+                    if (Controleur.AddPersonnel(new Modèle.Personnel(0, ((Modèle.Service)cmbServiceStaff.SelectedItem).Id, txtSNStaff.Text, txtFNStaff.Text, txtPhoneStaff.Text, txtMailStaff.Text)))
+                    {
+                        UpdateDataGrid();
+                        BtnCancelStaff_Click(null, null);
+                    }
+                }
+                else
+                {
+                    if (Controleur.UpdatePersonnel(new Modèle.Personnel((int)dataGrid1.SelectedRows[0].Cells[0].Value, ((Modèle.Service)cmbServiceStaff.SelectedItem).Id, txtSNStaff.Text, txtFNStaff.Text, txtPhoneStaff.Text, txtMailStaff.Text)))
+                    {
+                        UpdateDataGrid();
+                        BtnCancelStaff_Click(null, null);
+                    }
                 }
             }
             else
             {
-                if (Dal.GestDonneesDB.UpdatePersonnel(new Modèle.Personnel((int)dataGrid1.SelectedRows[0].Cells[0].Value, ((Modèle.Service)cmbServiceStaff.SelectedItem).Id, txtSNStaff.Text, txtFNStaff.Text, txtPhoneStaff.Text, txtMailStaff.Text)))
-                {
-                    UpdateDataGrid();
-                    btnCancelStaff_Click(null, null);
-                }
+                Controleur.ShowError("Tout les champs doivent êtres remplis");
             }
         }
 
@@ -171,7 +185,7 @@ namespace GestionPersonnel.Vue
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnCancelStaff_Click(object sender, EventArgs e)
+        private void BtnCancelStaff_Click(object sender, EventArgs e)
         {
             this.Mode = 0;
             grpAddModStaff.Text = "Ajouter/Modifier";
@@ -186,17 +200,27 @@ namespace GestionPersonnel.Vue
 
         /// <summary>
         /// Fonction s'éxecutant au clique sur le bouton supprimer dans l'onglet Personnel
-        /// Permet de supprimer un personnel
+        /// Permet de supprimer un personnel si confirmation
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnDelStaff_Click(object sender, EventArgs e)
+        private void BtnDelStaff_Click(object sender, EventArgs e)
         {
-            if (Dal.GestDonneesDB.DeletePersonnel((int)dataGrid1.SelectedRows[0].Cells[0].Value))
+            if (dataGrid1.SelectedRows.Count == 1)
             {
-                this.personnelTableAdapter.Fill(this.gestpersoDataSet.personnel);
-                dataGrid1.Update();
-                dataGrid1.Refresh();
+                if (Controleur.Ask())
+                {
+                    if (Controleur.DeletePersonnel((int)dataGrid1.SelectedRows[0].Cells[0].Value))
+                    {
+                        this.personnelTableAdapter.Fill(this.gestpersoDataSet.personnel);
+                        dataGrid1.Update();
+                        dataGrid1.Refresh();
+                    }
+                }
+            }
+            else
+            {
+                Controleur.ShowError("Vous devez sélectionner un personnel");
             }
         }
 
@@ -206,7 +230,7 @@ namespace GestionPersonnel.Vue
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnModStaff_Click(object sender, EventArgs e)
+        private void BtnModStaff_Click(object sender, EventArgs e)
         {
             if (dataGrid1.SelectedRows.Count == 1)
             {
@@ -222,6 +246,10 @@ namespace GestionPersonnel.Vue
                 txtPhoneStaff.Text = personnel.Tel;
                 cmbServiceStaff.SelectedIndex = personnel.IdService - 1;
             }
+            else
+            {
+                Controleur.ShowError("Vous devez sélectionner un personnel");
+            }
         }
 
         /// <summary>
@@ -230,7 +258,7 @@ namespace GestionPersonnel.Vue
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnAddAbs_Click(object sender, EventArgs e)
+        private void BtnAddAbs_Click(object sender, EventArgs e)
         {
             grpAbs.Enabled = false;
             grpAddModAbs.Enabled = true;
@@ -241,17 +269,16 @@ namespace GestionPersonnel.Vue
 
         /// <summary>
         /// Fonction s'éxécutant au clique sur le bouton "Annuler" dans l'onglet absence
-        /// Permet d'annuler l'ajout ou la modification d'un personnel
+        /// Permet d'annuler l'ajout ou la modification d'une absence
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnCancelAbs_Click(object sender, EventArgs e)
+        private void BtnCancelAbs_Click(object sender, EventArgs e)
         {
             grpAbs.Enabled = true;
             grpAddModAbs.Enabled = false;
             grpAddModAbs.Text = "Ajouter/Modifier";
             btnValidateAbs.Text = "Ajouter/Modifier";
-            errLblAbs.Text = "";
             this.Mode = 0;
         }
         /// <summary>
@@ -260,32 +287,46 @@ namespace GestionPersonnel.Vue
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnModAbs_Click(object sender, EventArgs e)
+        private void BtnModAbs_Click(object sender, EventArgs e)
         {
-            grpAbs.Enabled = false;
-            grpAddModAbs.Enabled = true;
-            grpAddModAbs.Text = "Modifier";
-            btnValidateAbs.Text = "Modifier";
-            dtpStartAbs.Value = (DateTime)dataGrid2.SelectedRows[0].Cells[1].Value;
-            dtpEndAbs.Value = (DateTime)dataGrid2.SelectedRows[0].Cells[3].Value;
-            cmbReasonAbs.SelectedIndex = (int)dataGrid2.SelectedRows[0].Cells[2].Value-1;
-            this.Mode = 4;
+            if (dataGrid2.SelectedRows.Count == 1)
+            {
+                grpAbs.Enabled = false;
+                grpAddModAbs.Enabled = true;
+                grpAddModAbs.Text = "Modifier";
+                btnValidateAbs.Text = "Modifier";
+                dtpStartAbs.Value = (DateTime)dataGrid2.SelectedRows[0].Cells[1].Value;
+                dtpEndAbs.Value = (DateTime)dataGrid2.SelectedRows[0].Cells[3].Value;
+                cmbReasonAbs.SelectedIndex = (int)dataGrid2.SelectedRows[0].Cells[2].Value - 1;
+                this.Mode = 4;
+            }
+            else
+            {
+                Controleur.ShowError("Vous devez sélectionner une absence");
+            }
         }
 
         /// <summary>
         /// Fonction s'éxécutant au clique sur le bouton "supprimer" dans l'onglet absence
-        /// Permet de supprimer un personnel
+        /// Permet de supprimer une absence si confirmation
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnDelAbs_Click(object sender, EventArgs e)
+        private void BtnDelAbs_Click(object sender, EventArgs e)
         {
             if (dataGrid2.SelectedRows.Count == 1)
             {
-                if(Dal.GestDonneesDB.DeleteAbsence((int)dataGrid2.SelectedRows[0].Cells[0].Value, (DateTime)dataGrid2.SelectedRows[0].Cells[1].Value))
+                if (Controleur.Ask())
                 {
-                    UpdateDataGrid2();
+                    if (Controleur.DeleteAbsence((int)dataGrid2.SelectedRows[0].Cells[0].Value, (DateTime)dataGrid2.SelectedRows[0].Cells[1].Value))
+                    {
+                        UpdateDataGrid2();
+                    }
                 }
+            }
+            else
+            {
+                Controleur.ShowError("Vous devez sélectionner une absence");
             }
         }
     }
