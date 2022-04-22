@@ -85,7 +85,7 @@ namespace GestionPersonnel.Dal
         public static DataTable GetAbsences(int id)
         {
             ConnexionDB connection = ConnexionDB.GetInstance(connectionString);
-            DataTable dt = connection.FillData("SELECT absence.*, motif.LIBELLE as MOTIF from absence JOIN motif ON absence.IDMOTIF = motif.IDMOTIF WHERE IDPERSONNEL="+id);
+            DataTable dt = connection.FillData("SELECT absence.*, motif.LIBELLE as MOTIF from absence JOIN motif ON absence.IDMOTIF = motif.IDMOTIF WHERE IDPERSONNEL="+id+" ORDER BY DATEDEBUT DESC");
             connection.Close();
             return dt;
         }
